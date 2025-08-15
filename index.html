@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Unified Olympiad Judging Page — IranTVTO × WorldSkills-Tirotir (v1)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    /* Base font + print compatibility */
+    html,body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto; -webkit-print-color-adjust:exact; print-color-adjust:exact}
+    /* Minimal equivalents (no @apply) */
+    .card{background:#fff;border-radius:1rem;box-shadow:0 10px 30px rgba(2,6,23,.08);border:1px solid #e2e8f0}
+    .pill{display:inline-flex;align-items:center;gap:.5rem;padding:.25rem .5rem;border-radius:9999px;font-size:.75rem;font-weight:600}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem .75rem;border-radius:.75rem;font-weight:600;transition:filter .15s ease,transform .05s ease}
+    .btn:active{transform:scale(.98)}
+    .btn-primary{background:#4f46e5;color:#fff}.btn-primary:hover{background:#4338ca}
+    .btn-ghost{background:#f1f5f9;color:#334155}.btn-ghost:hover{background:#e2e8f0}
+    .btn-danger{background:#e11d48;color:#fff}.btn-danger:hover{background:#be123c}
+    .kpi{font-size:1.5rem;font-weight:800}
+    @media print{.no-print{display:none!important}body{background:#fff}.card{box-shadow:none;border:1px solid #e5e7eb}}
+    /* Tooltip bubble */
+    #tooltip{position:fixed;z-index:9999;display:none;max-width:36rem;padding:.5rem .75rem;background:#111827;color:#fff;border-radius:.5rem;box-shadow:0 10px 30px rgba(0,0,0,.15);pointer-events:none;font-size:.85rem;line-height:1.4}
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+  <header class="sticky top-0 z-30 backdrop-blur bg-white/80 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap gap-3 items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="pill bg-indigo-50 text-indigo-700">TD22</span>
+        <h1 class="text-lg sm:text-xl font-extrabold">Unified Olympiad Judging Page — IranTVTO × WorldSkills- Tirotir</h1>
+        <span class="hidden sm:inline text-xs text-slate-500">Version 1 (v1.0)</span>
+      </div>
+      <div class="flex items-center gap-2 no-print">
+        <button class="btn btn-ghost" id="btnPrint">Print / PDF</button>
+        <button class="btn btn-ghost" id="btnExport">Export JSON</button>
+        <button class="btn btn-ghost" id="btnCSV">Export CSV (UTF‑8)</button>
+        <label class="btn btn-ghost cursor-pointer" for="importFile">Import JSON<input id="importFile" type="file" accept="application/json" class="hidden" /></label>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto p-4 space-y-6">
+    <!-- Controls -->
+    <section class="card p-4">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+        <label class="md:col-span-3 flex flex-col gap-1">
+          <span class="text-sm text-slate-600">Search skill</span>
+          <input id="skillSearch" class="rounded-xl border-slate-300 focus:ring-indigo-500" placeholder="Type: Web, Robotics, Welding…" />
+        </label>
+        <label class="md:col-span-3 flex flex-col gap-1">
+          <span class="text-sm text-slate-600">Skill</span>
+          <select id="skillSelect" class="rounded-xl border-slate-300 focus:ring-indigo-500"></select>
+        </label>
+        <label class="md:col-span-2 flex flex-col gap-1">
+          <span class="text-sm text-slate-600">Module / Day</span>
+          <select id="moduleSelect" class="rounded-xl border-slate-300 focus:ring-indigo-500">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+          </select>
+        </label>
+        <label class="md:col-span-2 flex flex-col gap-1">
+          <span class="text-sm text-slate-600">Competitor/Team ID</span>
+          <input id="competitorId" class="rounded-xl border-slate-300 focus:ring-indigo-500" placeholder="e.g., IRN‑RBT‑12" />
+        </label>
+        <label class="md:col-span-2 flex flex-col gap-1">
+          <span class="text-sm text-slate-600">Judge name</span>
+          <input id="judgeName" class="rounded-xl border-slate-300 focus:ring-indigo-500" placeholder="Full name" />
+        </label>
+      </div>
+      <div class="mt-4 grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+        <div class="md:col-span-4">
+          <div class="grid grid-cols-2 gap-4">
+            <label class="flex flex-col gap-1">
+              <span class="text-xs text-slate-500">Final weight — Judgement (%)</span>
+              <input id="wJudgement" type="number" min="0" max="100" step="1" class="rounded-xl border-slate-300" />
+            </label>
+            <label class="flex flex-col gap-1">
+              <span class="text-xs text-slate-500">Final weight — Measurement (%)</span>
+              <input id="wMeasurement" type="number" min="0" max="100" step="1" class="rounded-xl border-slate-300" />
+            </label>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">These two must sum to 100. Use “Skill template” to reset to defaults.</p>
+        </div>
+        <div class="md:col-span-5 flex gap-2 flex-wrap no-print">
+          <button id="btnSkillTemplate" class="btn btn-ghost">Reset to skill template</button>
+          <button id="btnSave" class="btn btn-primary">Save (local)</button>
+          <button id="btnLoad" class="btn btn-ghost">Load last</button>
+          <button id="btnResetAll" class="btn btn-danger">Reset all</button>
+        </div>
+        <div class="md:col-span-3 flex gap-3 items-center no-print">
+          <label class="flex items-center gap-2 text-sm">
+            <input id="toggleLock" type="checkbox" class="w-4 h-4"> Lock editing
+          </label>
+          <label class="flex items-center gap-2 text-sm">
+            <input id="toggleAuto" type="checkbox" class="w-4 h-4"> Auto‑save
+          </label>
+          <button id="btnLoadRubrics" class="btn btn-ghost">Load rubrics.en.json</button>
+        </div>
+      </div>
+      <div id="skillChips" class="mt-3 flex flex-wrap gap-2"></div>
+    </section>
+
+    <!-- Scoreboard -->
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div class="card p-4">
+        <h2 class="font-bold mb-3">Judgement (0–3)</h2>
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-sm" id="tblJudgement">
+            <thead class="bg-slate-100 text-slate-700">
+              <tr>
+                <th class="p-2 text-left">#</th>
+                <th class="p-2 text-left">Aspect</th>
+                <th class="p-2 text-left">Weight %</th>
+                <th class="p-2 text-left">Score (0–3)</th>
+                <th class="p-2 text-left">Weighted</th>
+                <th class="p-2"></th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+              <tr class="bg-slate-50 font-bold">
+                <td class="p-2" colspan="2">Total</td>
+                <td class="p-2" id="sumJWeight">0</td>
+                <td class="p-2 text-slate-400">—</td>
+                <td class="p-2" id="sumJScore">0</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <div class="mt-3 flex gap-2 no-print">
+          <button id="addJudgement" class="btn btn-ghost">+ Add aspect</button>
+        </div>
+      </div>
+
+      <div class="card p-4">
+        <h2 class="font-bold mb-3">Measurement (Checklist / Points)</h2>
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-sm" id="tblMeasurement">
+            <thead class="bg-slate-100 text-slate-700">
+              <tr>
+                <th class="p-2 text-left">#</th>
+                <th class="p-2 text-left">Indicator</th>
+                <th class="p-2 text-left">Max</th>
+                <th class="p-2 text-left">Achieved</th>
+                <th class="p-2 text-left">Quick</th>
+                <th class="p-2"></th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+              <tr class="bg-slate-50 font-bold">
+                <td class="p-2" colspan="2">Total</td>
+                <td class="p-2" id="sumMWeight">0</td>
+                <td class="p-2" id="sumMScore">0</td>
+                <td class="p-2 text-slate-400">—</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <div class="mt-3 flex gap-2 no-print">
+          <button id="addMeasurement" class="btn btn-ghost">+ Add indicator</button>
+        </div>
+      </div>
+
+      <div class="card p-4 flex flex-col gap-4">
+        <h2 class="font-bold">Score summary</h2>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="p-3 rounded-xl bg-indigo-50 text-indigo-900">
+            <div class="text-xs">Judgement %</div>
+            <div class="kpi" id="kpiJ">0%</div>
+          </div>
+          <div class="p-3 rounded-xl bg-emerald-50 text-emerald-900">
+            <div class="text-xs">Measurement %</div>
+            <div class="kpi" id="kpiM">0%</div>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-900 text-white col-span-2">
+            <div class="text-xs">Final (weighted)</div>
+            <div class="kpi" id="kpiFinal">0.00</div>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold text-sm mb-1">Judge notes</h3>
+          <textarea id="judgeNotes" rows="6" class="w-full rounded-xl border-slate-300" placeholder="Document evidence for level 3; include module/item IDs."></textarea>
+        </div>
+        <div class="text-xs text-slate-500">
+          <p>Note: Each table sums to 100 independently and then combines using the final weights above.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skill Info -->
+    <section class="card p-4">
+      <h2 class="font-bold mb-2">Essential info for candidates and judges</h2>
+      <div id="skillInfo" class="prose prose-slate max-w-none prose-p:my-1"></div>
+    </section>
+
+    <footer class="py-10 text-center text-xs text-slate-500">
+      Unified Olympiad Judging Page — Version 1 • MIT License • Works online/offline
+      <div class="mt-2">Presented by Khuzestan TVTO – Izeh – AI Institute • Official TDs: <a class="underline" href="https://skill.irantvto.ir/td22" target="_blank" rel="noopener">skill.irantvto.ir/td22</a></div>
+    </footer>
+  </main>
+
+  <script>
+    // ========= Tooltip =========
+    function setupTooltips(){
+      const tip = document.createElement('div');
+      tip.id = 'tooltip';
+      document.body.appendChild(tip);
+      const hide = ()=>{ tip.style.display='none'; };
+      const position = (x,y)=>{
+        const pad=12; requestAnimationFrame(()=>{ const w=tip.offsetWidth, h=tip.offsetHeight; let left=x+pad, top=y+pad; if(left+w>innerWidth) left=x-w-pad; if(top+h>innerHeight) top=y-h-pad; tip.style.left=left+'px'; tip.style.top=top+'px'; });
+      };
+      document.addEventListener('mouseover', e=>{ const el=e.target.closest('[data-tip]'); if(!el) return; const txt=el.getAttribute('data-tip')||el.getAttribute('title')||''; if(!txt) return; tip.textContent=txt; tip.style.display='block'; position(e.clientX,e.clientY); });
+      document.addEventListener('mousemove', e=>{ if(tip.style.display==='block') position(e.clientX,e.clientY); });
+      document.addEventListener('mouseout', e=>{ if(e.target.closest('[data-tip]')) hide(); });
+      document.addEventListener('focusin', e=>{ const el=e.target.closest('[data-tip]'); if(!el) return; const txt=el.getAttribute('data-tip')||el.getAttribute('title')||''; if(!txt) return; tip.textContent=txt; tip.style.display='block'; const r=el.getBoundingClientRect(); position(r.right,r.top); });
+      document.addEventListener('focusout', e=>{ if(e.target.closest('[data-tip]')) hide(); });
+      document.addEventListener('input', e=>{ const el=e.target.closest('[data-tip]'); if(el){ el.setAttribute('data-tip', el.value); el.setAttribute('title', el.value); } });
+    }
+
+    // ========= Skill Templates (EN) =========
+    const SkillsBase = [
+      {
+        id: 'web',
+        title: 'Web Technologies (TD17)',
+        weights: { judgement: 50, measurement: 50 },
+        chips: ['USB for competitors: not allowed in workshop','C-2: personal keyboard/mouse/headphones allowed','Offline music allowed per rule'],
+        judgement: [
+          { name: 'Design/UX & accessibility', weight: 20 },
+          { name: 'Code quality (modular, tested, documented)', weight: 15 },
+          { name: 'Client/server interaction & security basics', weight: 10 },
+          { name: 'Teamwork/organization/communication', weight: 5 }
+        ],
+        measurement: [
+          { name: 'HTML/CSS/JS validation & tests passed', weight: 15 },
+          { name: 'Database & API (constraints/normalization)', weight: 10 },
+          { name: 'Deploy & server/web‑server configuration', weight: 10 },
+          { name: 'Speed module(s) (e.g., sitemap, scheduled jobs)', weight: 15 }
+        ],
+        infoHTML: `<ul><li>Questions should be raised on the forum in advance; in-briefing time is limited.</li><li>PPE: closed‑toe shoes per general rules.</li></ul>`
+      },
+      {
+        id: 'robotics',
+        title: 'Autonomous Mobile Robotics (TD23)',
+        weights: { judgement: 55, measurement: 45 },
+        chips: ['Tool cases ≤ 0.36 m³ at C‑2','Court shoes required on arenas','Performance Review Module'],
+        judgement: [
+          { name: 'Mech‑Elec‑Software integration & design', weight: 25 },
+          { name: 'Autonomy/navigation & perception', weight: 25 },
+          { name: 'Reliability & repeatability', weight: 20 },
+          { name: 'Safety, organization & maintenance', weight: 15 },
+          { name: 'Teamwork & communication', weight: 15 }
+        ],
+        measurement: [
+          { name: 'Mission objectives achieved (success criteria)', weight: 50 },
+          { name: 'Time to complete', weight: 20 },
+          { name: 'Penalties/violations (hand contact, off‑track…)', weight: 15 },
+          { name: 'Docs & delivery of programs/configs', weight: 15 }
+        ],
+        infoHTML: `<ul><li>Bring paper/digital info only at C‑2 and keep until the end; no new info during competition.</li><li>Sponsor parts are replaced if failed; personal parts at team’s risk.</li></ul>`
+      },
+      {
+        id: 'gdt',
+        title: 'Graphic Design Technology (TD40) — Generic template',
+        weights: { judgement: 60, measurement: 40 },
+        chips: ['PDF/X + ICC','Bleed/Trim/Reg/Color Bars','Internet/USB: prohibited unless announced'],
+        judgement: [
+          { name: 'Creativity/idea & typography/composition', weight: 30 },
+          { name: 'Color/image control & prepress', weight: 25 },
+          { name: 'Technical accuracy of files/output standards', weight: 25 },
+          { name: 'Organization & professional delivery', weight: 10 },
+          { name: 'Problem solving/redesign', weight: 10 }
+        ],
+        measurement: [
+          { name: 'Preflight pass (PDF/X & ICC)', weight: 30 },
+          { name: 'Dimensions/resolution/bleed', weight: 25 },
+          { name: 'Marks/overprint/spot usage correct', weight: 25 },
+          { name: 'Naming/archiving per brief', weight: 20 }
+        ],
+        infoHTML: `<ul><li>Official TD not in the provided pack; this is a professional template.</li></ul>`
+      },
+      { id:'elecinst', title:'Electrical Installations (TD18)', weights:{judgement:45,measurement:55}, chips:['PPE: safety glasses, cut‑resistant gloves, insulated shoes','Plumb/level/square per datums','Testing/commissioning & reporting'], judgement:[{name:'Personal & installation safety',weight:15},{name:'Work organization & housekeeping',weight:10},{name:'Circuit design & protection selection',weight:10},{name:'Documentation/communication',weight:10}], measurement:[{name:'Dimensions/plumb/level/angles',weight:20},{name:'Functional tests & handover',weight:20},{name:'Conformance to drawings',weight:15}], infoHTML:'' },
+      { id:'electronics', title:'Electronics (TD16)', weights:{judgement:45,measurement:55}, chips:['Judgement 0–3; per marking scheme','Measurement: functional tests/fault‑finding/tolerances'], judgement:[{name:'Circuit design & analysis',weight:15},{name:'PCB/assembly & wiring quality',weight:15},{name:'Troubleshooting method & safety',weight:10},{name:'Organization/communication',weight:5}], measurement:[{name:'Meets functional specification',weight:25},{name:'Electrical/signal measurements within tolerance',weight:20},{name:'Delivery of test records/docs',weight:10}], infoHTML:'' },
+      { id:'brick', title:'Bricklaying (TD20)', weights:{judgement:40,measurement:60}, chips:['Host provides measuring tools','Marking plans & sampling'], judgement:[{name:'Joint quality & overall appearance',weight:15},{name:'Site organization & safety',weight:10},{name:'Reading drawings & sequence',weight:15}], measurement:[{name:'Dimensions/angles/plumb/level',weight:30},{name:'Conformance to drawings/benchmarks',weight:20},{name:'Progress/completion',weight:10}], infoHTML:'' },
+      { id:'tiling', title:'Wall & Floor Tiling (TD12)', weights:{judgement:40,measurement:60}, chips:['PPE: wet cut/dust/gloves','Daily module progress; tile overuse penalty','Dimensional tolerances'], judgement:[{name:'Overall finish & cleanliness',weight:15},{name:'Cut quality & joint uniformity',weight:15},{name:'Organization & safety',weight:10}], measurement:[{name:'Levels/plumb/flatness',weight:20},{name:'Corners/alignment/flushness',weight:20},{name:'Conformance & completion',weight:20}], infoHTML:'' },
+      { id:'carpainting', title:'Vehicle Painting (TD36)', weights:{judgement:50,measurement:50}, chips:['Judgement 0–3; SAG criteria','Measurement: process conformity, masking, thickness/finish'], judgement:[{name:'Surface prep & masking',weight:20},{name:'Coating quality/finish',weight:20},{name:'Workshop discipline & safety',weight:10}], measurement:[{name:'OEM procedure adherence',weight:20},{name:'Color match/gloss/surface defects',weight:20},{name:'Timing & delivery',weight:10}], infoHTML:'' },
+      { id:'autobody', title:'Automobile Body Repair (TD13)', weights:{judgement:45,measurement:55}, chips:['Weld‑through primer required','OEM gaps/alignments/tolerances'], judgement:[{name:'Safety, method & preparation',weight:15},{name:'Assembly/fixture quality',weight:15},{name:'Organization/cleanliness',weight:15}], measurement:[{name:'MIG/spot/plug weld quality',weight:20},{name:'Gaps/lines/alignments',weight:20},{name:'Torque specs & spot checks',weight:15}], infoHTML:'' },
+      { id:'autotech', title:'Automobile Technology (TD33)', weights:{judgement:45,measurement:55}, chips:['Safety/housekeeping/sustainability','Clear marking sheets'], judgement:[{name:'Customer communication & job completion',weight:15},{name:'Diagnostic method & repair decisions',weight:20},{name:'Safety & sustainability',weight:10}], measurement:[{name:'Service/diagnosis/repair/overhaul',weight:35},{name:'Timing & quality of handover',weight:20}], infoHTML:'' },
+      { id:'hairdressing', title:'Men’s Hairdressing (TD29)', weights:{judgement:65,measurement:35}, chips:['MAT & judge rotation; transparent judging'], judgement:[{name:'Design, shape & proportion',weight:25},{name:'Execution quality (cut/fade/style)',weight:25},{name:'Hygiene/safety/organization',weight:15}], measurement:[{name:'Brief compliance (length/zones)',weight:20},{name:'Timing & delivery',weight:15}], infoHTML:'' },
+      { id:'mechatronics', title:'Mechatronics (TD04)', weights:{judgement:50,measurement:50}, chips:['Time points ≤ 20% total','No workpiece replacement; follow I/O tables'], judgement:[{name:'Mechanical/pneumatic assembly quality',weight:20},{name:'PLC/HMI programming quality',weight:20},{name:'Organization & safety',weight:10}], measurement:[{name:'Station/cycle functional performance',weight:30},{name:'Wiring & settings per I/O table',weight:20}], infoHTML:'' },
+      { id:'cooking', title:'Cooking (TD34)', weights:{judgement:60,measurement:40}, chips:['Uniform/hat/shoes required; gloves for RTE','Judgement 0–3 + Measurement'], judgement:[{name:'Taste/texture/technique',weight:30},{name:'Plate presentation & creativity',weight:20},{name:'Hygiene & organization',weight:10}], measurement:[{name:'Service time/temperature',weight:15},{name:'Weight/size/portion compliance',weight:15},{name:'Recipe cards/ingredients list',weight:10}], infoHTML:'' },
+      { id:'fashion', title:'Fashion Technology (TD31)', weights:{judgement:60,measurement:40}, chips:['Project details not published before competition','Limited personal tools at C‑2; PPE per rules'], judgement:[{name:'Design/pattern/fit',weight:30},{name:'Sewing/finishing quality',weight:20},{name:'Workflow & aesthetics',weight:10}], measurement:[{name:'Pattern/size tolerances',weight:20},{name:'Timing & completion',weight:10},{name:'Tech pack & docs',weight:10}], infoHTML:'' },
+      { id:'patisserie', title:'Pâtisserie & Confectionery (TD32)', weights:{judgement:60,measurement:40}, chips:['PPE: hair restraint; sugar gloves','Mise en place transferable across days'], judgement:[{name:'Taste/texture/technique',weight:30},{name:'Presentation/design/precision',weight:20},{name:'Hygiene & organization',weight:10}], measurement:[{name:'Size/weight/quantity compliance',weight:15},{name:'Timing & temperatures',weight:15},{name:'Forms & documentation',weight:10}], infoHTML:'' },
+      { id:'bakery', title:'Bakery (Yeast Breads) (TD47)', weights:{judgement:60,measurement:40}, chips:['Hygiene/waste management indicators','Display & timing are assessed'], judgement:[{name:'Taste/crumb/crust',weight:25},{name:'Form/display items',weight:20},{name:'Hygiene/process/waste mgmt',weight:15}], measurement:[{name:'Size/weight/uniformity',weight:15},{name:'Timing & baking',weight:15},{name:'Task compliance',weight:10}], infoHTML:'' }
+    ];
+
+    // ========= Helpers =========
+    const $ = (s,root=document)=>root.querySelector(s);
+    const $$ = (s,root=document)=>Array.from(root.querySelectorAll(s));
+
+    function populateSkills(){ const sel=$('#skillSelect'); sel.innerHTML=''; Skills.forEach(s=>{ const o=document.createElement('option'); o.value=s.id; o.textContent=s.title; sel.appendChild(o); }); sel.value=Skills[0]?.id||''; renderChips(currentSkill()); }
+    function filterSkills(){ const q=($('#skillSearch').value||'').toLowerCase(); const sel=$('#skillSelect'); sel.innerHTML=''; Skills.filter(s=>s.title.toLowerCase().includes(q)).forEach(s=>{ const o=document.createElement('option'); o.value=s.id; o.textContent=s.title; sel.appendChild(o); }); if(sel.options.length){ sel.value=sel.options[0].value; onSkillChange(); } }
+    function renderChips(skill){ const box=$('#skillChips'); box.innerHTML=''; (skill?.chips||[]).forEach(t=>{ const span=document.createElement('span'); span.className='pill bg-slate-100 text-slate-700'; span.textContent=t; box.appendChild(span); }); }
+
+    function addJRow({name='', weight=0, score=0}={}){ const tb=$('#tblJudgement tbody'); const tr=document.createElement('tr'); tr.innerHTML=`
+      <td class="p-2 text-slate-500"></td>
+      <td class="p-2"><input class="w-full bg-transparent border rounded-lg border-slate-200 px-2 py-1" value="${name}" data-tip="${name}" title="${name}"></td>
+      <td class="p-2"><input type="number" min="0" max="100" step="1" class="w-24 bg-transparent border rounded-lg border-slate-200 px-2 py-1" value="${weight}"></td>
+      <td class="p-2"><input type="number" min="0" max="3" step="0.5" class="w-20 bg-transparent border rounded-lg border-slate-200 px-2 py-1" value="${score}"></td>
+      <td class="p-2 text-left font-semibold">0</td>
+      <td class="p-2"><button class="btn btn-ghost text-rose-600 del">Delete</button></td>`; tb.appendChild(tr); renumber('#tblJudgement'); attachRowHandlers(tr,'J'); compute(); }
+
+    function addMRow({name='', weight=0, score=0}={}){ const tb=$('#tblMeasurement tbody'); const tr=document.createElement('tr'); tr.innerHTML=`
+      <td class="p-2 text-slate-500"></td>
+      <td class="p-2"><input class="w-full bg-transparent border rounded-lg border-slate-200 px-2 py-1" value="${name}" data-tip="${name}" title="${name}"></td>
+      <td class="p-2"><input type="number" min="0" step="1" class="w-24 bg-transparent border rounded-lg border-slate-200 px-2 py-1 max" value="${weight}"></td>
+      <td class="p-2"><input type="number" min="0" step="1" class="w-24 bg-transparent border rounded-lg border-slate-200 px-2 py-1 got" value="${score}"></td>
+      <td class="p-2 flex gap-2"><button class="btn btn-ghost fill0">0</button><button class="btn btn-ghost fillMax">Full</button></td>
+      <td class="p-2"><button class="btn btn-ghost text-rose-600 del">Delete</button></td>`; tb.appendChild(tr); renumber('#tblMeasurement'); attachRowHandlers(tr,'M'); compute(); }
+
+    function renumber(id){ $$(id+' tbody tr').forEach((tr,i)=> tr.firstElementChild.textContent=i+1 ); }
+
+    function attachRowHandlers(tr, kind){ tr.addEventListener('input', compute); tr.querySelector('.del').addEventListener('click', ()=>{ tr.remove(); renumber(kind==='J'?'#tblJudgement':'#tblMeasurement'); compute(); }); if(kind==='M'){ tr.querySelector('.fill0').addEventListener('click', ()=>{ tr.querySelector('.got').value=0; compute(); }); tr.querySelector('.fillMax').addEventListener('click', ()=>{ tr.querySelector('.got').value=tr.querySelector('.max').value||0; compute(); }); } }
+
+    function loadTemplate(skill){ $('#wJudgement').value=skill.weights.judgement; $('#wMeasurement').value=skill.weights.measurement; $('#tblJudgement tbody').innerHTML=''; $('#tblMeasurement tbody').innerHTML=''; (skill.judgement||[]).forEach(r=>addJRow({name:r.name,weight:r.weight,score:0})); (skill.measurement||[]).forEach(r=>addMRow({name:r.name,weight:r.weight,score:0})); $('#skillInfo').innerHTML=skill.infoHTML||''; renderChips(skill); compute(); }
+
+    function compute(){
+      const locked=$('#toggleLock').checked; $$('#tblJudgement input, #tblMeasurement input').forEach(el=>el.disabled=locked); $('#wJudgement').disabled=locked; $('#wMeasurement').disabled=locked; $('#competitorId').disabled=locked; $('#judgeName').disabled=locked;
+      let jw=0, js=0; $$('#tblJudgement tbody tr').forEach(tr=>{ const w=+tr.children[2].querySelector('input').value||0; const s=+tr.children[3].querySelector('input').value||0; const pct=(s/3)*w; tr.children[4].textContent=pct.toFixed(2); jw+=w; js+=pct; }); $('#sumJWeight').textContent=jw.toFixed(0); $('#sumJScore').textContent=js.toFixed(2); const jPct=jw? (js/jw)*100:0; $('#kpiJ').textContent=jPct.toFixed(0)+'%';
+      let mw=0, ms=0; $$('#tblMeasurement tbody tr').forEach(tr=>{ const max=+tr.querySelector('.max').value||0; const got=Math.min(+tr.querySelector('.got').value||0,max); mw+=max; ms+=got; }); $('#sumMWeight').textContent=mw.toFixed(0); $('#sumMScore').textContent=ms.toFixed(0); const mPct=mw? (ms/mw)*100:0; $('#kpiM').textContent=mPct.toFixed(0)+'%';
+      const wJ=+($('#wJudgement').value||0), wM=+($('#wMeasurement').value||0), wSum=(wJ+wM)||1; const nJ=wSum?(wJ/wSum):0.5, nM=wSum?(wM/wSum):0.5; const final=(jPct*nJ + mPct*nM).toFixed(2); $('#kpiFinal').textContent=final;
+      if(autoSave) saveLocal(true);
+    }
+
+    function saveLocal(silent=false){ const key=storageKey(); const data=collectData(); localStorage.setItem(key, JSON.stringify(data)); if(!silent) alert('Saved: '+key); }
+    function loadLocal(){ const key=storageKey(); const txt=localStorage.getItem(key); if(!txt){ alert('No saved data for this key.'); return; } applyData(JSON.parse(txt)); alert('Loaded: '+key); }
+    function storageKey(){ const skill=$('#skillSelect').value; const mod=$('#moduleSelect').value; const cid=($('#competitorId').value||'NA').trim(); return `TD22|${skill}|M${mod}|${cid}`; }
+
+    function collectData(){ const J=$$('#tblJudgement tbody tr').map(tr=>({name:tr.children[1].querySelector('input').value,weight:+tr.children[2].querySelector('input').value||0,score:+tr.children[3].querySelector('input').value||0})); const M=$$('#tblMeasurement tbody tr').map(tr=>({name:tr.children[1].querySelector('input').value,weight:+tr.querySelector('.max').value||0,score:+tr.querySelector('.got').value||0})); return { meta:{skill:$('#skillSelect').value,module:$('#moduleSelect').value,competitor:$('#competitorId').value,judge:$('#judgeName').value}, weights:{judgement:+$('#wJudgement').value||0,measurement:+$('#wMeasurement').value||0}, J,M, notes:$('#judgeNotes').value }; }
+
+    function applyData(d){ $('#wJudgement').value=d.weights.judgement; $('#wMeasurement').value=d.weights.measurement; $('#competitorId').value=d.meta.competitor||''; $('#judgeName').value=d.meta.judge||''; $('#tblJudgement tbody').innerHTML=''; $('#tblMeasurement tbody').innerHTML=''; (d.J||[]).forEach(r=>addJRow(r)); (d.M||[]).forEach(r=>addMRow(r)); $('#judgeNotes').value=d.notes||''; compute(); }
+
+    function exportJSON(){ const blob=new Blob([JSON.stringify(collectData(),null,2)],{type:'application/json;charset=utf-8'}); const a=document.createElement('a'); const skill=$('#skillSelect').value; const mod=$('#moduleSelect').value; const cid=$('#competitorId').value||'NA'; a.download=`${skill}_M${mod}_${cid}.json`; a.href=URL.createObjectURL(blob); a.click(); URL.revokeObjectURL(a.href); }
+
+    // CSV with UTF‑8 BOM so Excel shows non‑ASCII correctly
+    function exportCSV(){ const d=collectData(); const escape=s=> '"'+String(s).replace(/"/g,'""')+'"'; const lines=['type,index,name,max_or_weight,score']; d.J.forEach((r,i)=>lines.push(['Judgement',i+1,escape(r.name),r.weight,r.score].join(','))); d.M.forEach((r,i)=>lines.push(['Measurement',i+1,escape(r.name),r.weight,r.score].join(','))); const csv=lines.join('\r\n'); const bom='\uFEFF'; const blob=new Blob([bom+csv],{type:'text/csv;charset=utf-8;'}); const a=document.createElement('a'); a.download=`${d.meta.skill}_M${d.meta.module}_${d.meta.competitor||'NA'}.csv`; a.href=URL.createObjectURL(blob); a.click(); URL.revokeObjectURL(a.href); }
+
+    function importJSON(file){ const reader=new FileReader(); reader.onload=()=>{ try{ applyData(JSON.parse(reader.result)); } catch(e){ alert('Invalid JSON'); } }; reader.readAsText(file); }
+
+    function resetAll(){ if(!confirm('Reset everything? (tables will be cleared)')) return; const skill=currentSkill(); $('#competitorId').value=''; $('#judgeName').value=''; $('#judgeNotes').value=''; loadTemplate(skill); }
+
+    function currentSkill(){ const id=$('#skillSelect').value; return Skills.find(s=>s.id===id); }
+    function onSkillChange(){ loadTemplate(currentSkill()); }
+
+    async function tryLoadRubrics(){ try{ const res=await fetch('rubrics.en.json',{cache:'no-store'}); if(!res.ok) return false; const data=await res.json(); mergeRubrics(data); return true; } catch{ return false; } }
+    function mergeRubrics(ext){ if(!Array.isArray(ext)) return; const idx=Object.fromEntries(Skills.map((s,i)=>[s.id,i])); ext.forEach(s=>{ if(idx[s.id]!==undefined){ Skills[idx[s.id]]={...Skills[idx[s.id]],...s}; } else { Skills.push(s); } }); populateSkills(); onSkillChange(); }
+
+    // ========= State =========
+    let Skills=[...SkillsBase]; let autoSave=false;
+
+    // ========= Wire‑up =========
+    window.addEventListener('DOMContentLoaded', async ()=>{
+      setupTooltips();
+      populateSkills(); onSkillChange();
+      $('#skillSelect').addEventListener('change', onSkillChange);
+      $('#skillSearch').addEventListener('input', filterSkills);
+      $('#wJudgement').addEventListener('input', compute);
+      $('#wMeasurement').addEventListener('input', compute);
+      $('#addJudgement').addEventListener('click', ()=>addJRow({}));
+      $('#addMeasurement').addEventListener('click', ()=>addMRow({}));
+      $('#btnSave').addEventListener('click', ()=>saveLocal(false));
+      $('#btnLoad').addEventListener('click', loadLocal);
+      $('#btnExport').addEventListener('click', exportJSON);
+      $('#btnCSV').addEventListener('click', exportCSV);
+      $('#importFile').addEventListener('change', e=> e.target.files[0] && importJSON(e.target.files[0]));
+      $('#btnResetAll').addEventListener('click', resetAll);
+      $('#btnSkillTemplate').addEventListener('click', ()=>loadTemplate(currentSkill()));
+      $('#btnPrint').addEventListener('click', ()=>window.print());
+      $('#toggleLock').addEventListener('change', compute);
+      $('#toggleAuto').addEventListener('change', e=>{ autoSave=e.target.checked; if(autoSave) saveLocal(true); });
+      $('#btnLoadRubrics').addEventListener('click', async ()=>{ const ok=await tryLoadRubrics(); alert(ok?'rubrics.en.json loaded.':'rubrics.en.json not found.'); });
+      document.addEventListener('keydown', e=>{ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){ e.preventDefault(); saveLocal(); } });
+      await tryLoadRubrics();
+    });
+  </script>
+</body>
+</html>

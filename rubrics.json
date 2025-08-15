@@ -1,0 +1,274 @@
+[
+  {
+    "id": "web",
+    "title": "Web Technologies (TD17)",
+    "weights": { "judgement": 50, "measurement": 50 },
+    "chips": [
+      "USB for competitors: not allowed in workshop",
+      "C‑2: personal keyboard/mouse/headphones allowed",
+      "Offline music allowed per rule"
+    ],
+    "judgement": [
+      { "name": "Design/UX & accessibility", "weight": 20 },
+      { "name": "Code quality (modular, tested, documented)", "weight": 15 },
+      { "name": "Client/server interaction & basic security", "weight": 10 },
+      { "name": "Teamwork/organization/communication", "weight": 5 }
+    ],
+    "measurement": [
+      { "name": "HTML/CSS/JS validation & tests passed", "weight": 15 },
+      { "name": "Database & API (constraints/normalization)", "weight": 10 },
+      { "name": "Deploy & server/web‑server configuration", "weight": 10 },
+      { "name": "Speed module(s) (e.g., sitemap, scheduled jobs)", "weight": 15 }
+    ],
+    "infoHTML": "<ul><li>Raise questions on the forum in advance; briefing time is limited.</li><li>PPE: closed‑toe shoes per general rules.</li></ul>"
+  },
+  {
+    "id": "gdt",
+    "title": "Graphic Design Technology (TD40) — Generic template",
+    "weights": { "judgement": 60, "measurement": 40 },
+    "chips": ["PDF/X + ICC","Bleed/Trim/Reg/Color Bars","Internet/USB: prohibited unless announced"],
+    "judgement": [
+      { "name": "Creativity/idea & typography/composition", "weight": 30 },
+      { "name": "Color/image control & prepress", "weight": 25 },
+      { "name": "Technical accuracy of files/output standards", "weight": 25 },
+      { "name": "Organization & professional delivery", "weight": 10 },
+      { "name": "Problem solving/redesign", "weight": 10 }
+    ],
+    "measurement": [
+      { "name": "Preflight pass (PDF/X & ICC)", "weight": 30 },
+      { "name": "Dimensions/resolution/bleed", "weight": 25 },
+      { "name": "Marks/overprint/spot usage correct", "weight": 25 },
+      { "name": "Naming/archiving per brief", "weight": 20 }
+    ],
+    "infoHTML": "<ul><li>Official TD not in the provided pack; this is a professional template.</li></ul>"
+  },
+  {
+    "id": "robotics",
+    "title": "Autonomous Mobile Robotics (TD23)",
+    "weights": { "judgement": 55, "measurement": 45 },
+    "chips": ["Tool cases ≤ 0.36 m³ (C‑2)","Court shoes required on arenas","Performance Review Module"],
+    "judgement": [
+      { "name": "Mech‑Elec‑Software integration & design", "weight": 25 },
+      { "name": "Autonomy/navigation & perception", "weight": 25 },
+      { "name": "Reliability & repeatability", "weight": 20 },
+      { "name": "Safety, organization & maintenance", "weight": 15 },
+      { "name": "Teamwork & communication", "weight": 15 }
+    ],
+    "measurement": [
+      { "name": "Mission objectives achieved (success criteria)", "weight": 50 },
+      { "name": "Time to complete", "weight": 20 },
+      { "name": "Penalties/violations (hand contact, off‑track…)", "weight": 15 },
+      { "name": "Docs & delivery of programs/configs", "weight": 15 }
+    ],
+    "infoHTML": "<ul><li>Bring paper/digital info only at C‑2; no new info during competition.</li><li>Sponsor parts can be replaced; personal parts at team’s risk.</li></ul>"
+  },
+
+  { "id": "elecinst", "title": "Electrical Installations (TD18)",
+    "weights": { "judgement": 45, "measurement": 55 },
+    "chips": ["PPE: safety glasses, cut‑resistant gloves, insulated shoes","Plumb/level/square per datums","Testing/commissioning & reporting"],
+    "judgement": [
+      { "name": "Personal & installation safety", "weight": 15 },
+      { "name": "Work organization & housekeeping", "weight": 10 },
+      { "name": "Circuit design & protection selection", "weight": 10 },
+      { "name": "Documentation/communication", "weight": 10 }
+    ],
+    "measurement": [
+      { "name": "Dimensions/plumb/level/angles", "weight": 20 },
+      { "name": "Functional tests & handover", "weight": 20 },
+      { "name": "Conformance to drawings", "weight": 15 }
+    ]
+  },
+
+  { "id": "electronics", "title": "Electronics (TD16)",
+    "weights": { "judgement": 45, "measurement": 55 },
+    "chips": ["Judgement 0–3 per marking scheme","Measurement: functional tests/fault‑finding/tolerances"],
+    "judgement": [
+      { "name": "Circuit design & analysis", "weight": 15 },
+      { "name": "PCB/assembly & wiring quality", "weight": 15 },
+      { "name": "Troubleshooting method & safety", "weight": 10 },
+      { "name": "Organization/communication", "weight": 5 }
+    ],
+    "measurement": [
+      { "name": "Meets functional specification", "weight": 25 },
+      { "name": "Electrical/signal measurements within tolerance", "weight": 20 },
+      { "name": "Delivery of test records/docs", "weight": 10 }
+    ]
+  },
+
+  { "id": "brick", "title": "Bricklaying (TD20)",
+    "weights": { "judgement": 40, "measurement": 60 },
+    "chips": ["Host provides measuring tools","Marking plans & sampling"],
+    "judgement": [
+      { "name": "Joint quality & overall appearance", "weight": 15 },
+      { "name": "Site organization & safety", "weight": 10 },
+      { "name": "Drawing interpretation & sequence", "weight": 15 }
+    ],
+    "measurement": [
+      { "name": "Dimensions/angles/plumb/level", "weight": 30 },
+      { "name": "Conformance to drawings/benchmarks", "weight": 20 },
+      { "name": "Progress/completion", "weight": 10 }
+    ]
+  },
+
+  { "id": "tiling", "title": "Wall & Floor Tiling (TD12)",
+    "weights": { "judgement": 40, "measurement": 60 },
+    "chips": ["PPE: wet cut/dust/gloves","Daily module progress; penalty for tile overuse","Dimensional tolerances"],
+    "judgement": [
+      { "name": "Overall finish & cleanliness", "weight": 15 },
+      { "name": "Cut quality & joint uniformity", "weight": 15 },
+      { "name": "Organization & safety", "weight": 10 }
+    ],
+    "measurement": [
+      { "name": "Levels/plumb/flatness", "weight": 20 },
+      { "name": "Corners/alignment/flushness", "weight": 20 },
+      { "name": "Conformance & completion", "weight": 20 }
+    ]
+  },
+
+  { "id": "pdecoration", "title": "Painting & Decoration (Draft)",
+    "weights": { "judgement": 55, "measurement": 45 },
+    "chips": ["Not in provided PDFs — draft rubric","Masking/mixing (Judgement) + tolerance/time (Measurement)"],
+    "judgement": [
+      { "name": "Surface prep/prime/masking", "weight": 20 },
+      { "name": "Execution quality & edge sharpness", "weight": 20 },
+      { "name": "Safety & housekeeping", "weight": 15 }
+    ],
+    "measurement": [
+      { "name": "Dimensions/line level/tolerances", "weight": 20 },
+      { "name": "Timing & completion", "weight": 15 },
+      { "name": "Brief/drawing compliance", "weight": 10 }
+    ]
+  },
+
+  { "id": "cooking", "title": "Cooking (TD34)",
+    "weights": { "judgement": 60, "measurement": 40 },
+    "chips": ["Uniform/hat/shoes required; gloves for RTE","Marking: Judgement 0–3 + Measurement"],
+    "judgement": [
+      { "name": "Taste/texture/technique", "weight": 30 },
+      { "name": "Plating & creativity", "weight": 20 },
+      { "name": "Hygiene & organization", "weight": 10 }
+    ],
+    "measurement": [
+      { "name": "Service time/temperature", "weight": 15 },
+      { "name": "Weight/size/portion compliance", "weight": 15 },
+      { "name": "Recipe cards/ingredient list", "weight": 10 }
+    ]
+  },
+
+  { "id": "fashion", "title": "Fashion Technology (TD31)",
+    "weights": { "judgement": 60, "measurement": 40 },
+    "chips": ["Project details not released before competition (concept ~4 months prior)","Limited personal tools at C‑2; PPE per rules"],
+    "judgement": [
+      { "name": "Design/pattern/fit", "weight": 30 },
+      { "name": "Sewing/finishing quality", "weight": 20 },
+      { "name": "Workflow & overall aesthetics", "weight": 10 }
+    ],
+    "measurement": [
+      { "name": "Pattern/size tolerances", "weight": 20 },
+      { "name": "Timing & completion", "weight": 10 },
+      { "name": "Tech pack & documentation", "weight": 10 }
+    ]
+  },
+
+  { "id": "patisserie", "title": "Pâtisserie & Confectionery (TD32)",
+    "weights": { "judgement": 60, "measurement": 40 },
+    "chips": ["PPE: hair restraint; sugar gloves","Mise en place transferable across days"],
+    "judgement": [
+      { "name": "Taste/texture/technique", "weight": 30 },
+      { "name": "Presentation/design/precision", "weight": 20 },
+      { "name": "Hygiene & organization", "weight": 10 }
+    ],
+    "measurement": [
+      { "name": "Size/weight/quantity compliance", "weight": 15 },
+      { "name": "Timing & temperatures", "weight": 15 },
+      { "name": "Forms & documentation", "weight": 10 }
+    ]
+  },
+
+  { "id": "bakery", "title": "Bakery (Yeast Breads) (TD47)",
+    "weights": { "judgement": 60, "measurement": 40 },
+    "chips": ["Hygiene/waste management","Display & timing are assessed"],
+    "judgement": [
+      { "name": "Taste/crumb/crust", "weight": 25 },
+      { "name": "Form/display items", "weight": 20 },
+      { "name": "Hygiene/process/waste mgmt", "weight": 15 }
+    ],
+    "measurement": [
+      { "name": "Size/weight/uniformity", "weight": 15 },
+      { "name": "Timing & baking", "weight": 15 },
+      { "name": "Task compliance", "weight": 10 }
+    ]
+  },
+
+  { "id": "autobody", "title": "Automobile Body Repair (TD13)",
+    "weights": { "judgement": 45, "measurement": 55 },
+    "chips": ["Weld‑through primer required; torque per OEM","OEM gaps/alignments/tolerances"],
+    "judgement": [
+      { "name": "Safety, method & preparation", "weight": 15 },
+      { "name": "Assembly/fixture quality", "weight": 15 },
+      { "name": "Organization & cleanliness", "weight": 15 }
+    ],
+    "measurement": [
+      { "name": "MIG/spot/plug weld quality", "weight": 20 },
+      { "name": "Gaps/lines/alignments", "weight": 20 },
+      { "name": "Torque specs & random checks", "weight": 15 }
+    ]
+  },
+
+  { "id": "carpainting", "title": "Vehicle Painting (TD36)",
+    "weights": { "judgement": 50, "measurement": 50 },
+    "chips": ["Judgement 0–3 (SAG criteria)","Measurement: process conformity, masking, thickness/finish"],
+    "judgement": [
+      { "name": "Surface prep & masking", "weight": 20 },
+      { "name": "Coating quality/finish", "weight": 20 },
+      { "name": "Workshop discipline & safety", "weight": 10 }
+    ],
+    "measurement": [
+      { "name": "OEM procedure adherence", "weight": 20 },
+      { "name": "Color match/gloss/surface defects", "weight": 20 },
+      { "name": "Timing & delivery", "weight": 10 }
+    ]
+  },
+
+  { "id": "autotech", "title": "Automobile Technology (TD33)",
+    "weights": { "judgement": 45, "measurement": 55 },
+    "chips": ["Safety/housekeeping/sustainability","Clear marking sheets"],
+    "judgement": [
+      { "name": "Customer communication & job completion", "weight": 15 },
+      { "name": "Diagnostic method & repair decisions", "weight": 20 },
+      { "name": "Safety & sustainability", "weight": 10 }
+    ],
+    "measurement": [
+      { "name": "Service/diagnosis/repair/overhaul", "weight": 35 },
+      { "name": "Timing & quality of handover", "weight": 20 }
+    ]
+  },
+
+  { "id": "hairdressing", "title": "Men’s Hairdressing (TD29)",
+    "weights": { "judgement": 65, "measurement": 35 },
+    "chips": ["MAT & judge rotation; transparent judging"],
+    "judgement": [
+      { "name": "Design, shape & proportion", "weight": 25 },
+      { "name": "Execution quality (cut/fade/style)", "weight": 25 },
+      { "name": "Hygiene/safety/organization", "weight": 15 }
+    ],
+    "measurement": [
+      { "name": "Brief compliance (length/zones)", "weight": 20 },
+      { "name": "Timing & delivery", "weight": 15 }
+    ]
+  },
+
+  { "id": "mechatronics", "title": "Mechatronics (TD04)",
+    "weights": { "judgement": 50, "measurement": 50 },
+    "chips": ["Time points ≤ 20% of total","No workpiece change; follow I/O tables"],
+    "judgement": [
+      { "name": "Mechanical/pneumatic assembly quality", "weight": 20 },
+      { "name": "PLC/HMI programming quality", "weight": 20 },
+      { "name": "Organization & safety", "weight": 10 }
+    ],
+    "measurement": [
+      { "name": "Station/cycle functional performance", "weight": 30 },
+      { "name": "Wiring & settings per I/O table", "weight": 20 }
+    ]
+  }
+]
