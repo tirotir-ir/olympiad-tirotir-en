@@ -5,6 +5,7 @@
 A lightweight, interactive **online/offline** judging page aligned with WorldSkills/TD22 principles. Two scoring tables — **Judgement (0–3)** and **Measurement** — combine into a live final score using configurable weights. Supports **local save**, **Print/PDF**, and **Export JSON/CSV (UTF‑8 with BOM)**. Skill rubrics are auto‑loaded/merged from `rubrics.en.json`.
 
 **Online:** [Here](https://tirotir-ir.github.io/olympiad-tirotir-en/)
+
 **Official TDs:** [https://skill.irantvto.ir/td22](https://skill.irantvto.ir/td22)
 *This page is an executive summary of the official PDFs. For complete and up‑to‑date rules, always consult the official TD PDFs above.*
 
